@@ -1,35 +1,64 @@
-# Coffee Shop Full Stack
+# CAPSTONE
 
-## Full Stack Nano - IAM Final Project
+## Full Stack Nano - Capstone final project
 
-Udacity has decided to open a new digitally enabled cafe for students to order drinks, socialize, and study hard. But they need help setting up their menu experience.
+Udacity has given final project of developing a flask app with RBAC and deploying that in a heroku/Render cloud platform. 
 
-You have been called on to demonstrate your newly learned skills to create a full stack drink menu application. The application must:
+I have choosen Casting Agency Specifications as my project and deployed my flask app at Render. 
 
-1. Display graphics representing the ratios of ingredients in each drink.
-2. Allow public users to view drink names and graphics.
-3. Allow the shop baristas to see the recipe information.
-4. Allow the shop managers to create new drinks and edit existing drinks.
+The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer. It has two models Movies & Actors. 
 
-## Tasks
+## Application Render URL :
+ https://jsricapstone.onrender.com
 
-There are `@TODO` comments throughout the project. We recommend tackling the sections in order. Start by reading the READMEs in:
 
-1. [`./backend/`](./backend/README.md)
-2. [`./frontend/`](./frontend/README.md)
+
+# **API end points:**
+
+'/movies' - This end point will retrieve the details of movie available from the database and only the users with role casting assistant/casting director/Executive producer can access this end point. 
+
+'/actors' - This end point will retrieve the details of actor available from the actors table and only the users with role casting assistant/casting director/Executive producer can access this end point. 
+
+'/addactor' - This end point will be used to add new actors to the actor table. only the users with role casting director/Executive producer can access this end point. 
+
+'/addmovie' - This end point will be used to add new movie details to the movie table. only the users with role Executive producer can access this end point. 
+
+'/removemovie' - This end point will be used to remove  movie details to the movie table. only the users with role Executive producer can access this end point. 
+
+'/removeactor' - This end point will be used to remove actor details to the actor table. only the users with role Executive producer/casting director can access this end point. 
+
+'/updateactor' - This end point will be used to update actor details to the actor table. only the users with role Executive producer/casting director can access this end point. 
+
+'/updatemovie' - This end point will be used to update movie details to the movie table. only the users with role Executive producer/casting director can access this end point. 
+# 
+# **Role models utilized**: 
+
+There are three Roles available to utilize this API. 
+
+Casting Assistant : Can view actors and movies
+Casting Director :All permissions a Casting Assistant has and add or delete an actor from the database, Modify actors or movies
+Executive Producer :All permissions a Casting Director has an add or delete a movie from the database
 
 ## About the Stack
 
-We started the full stack application for you. It is designed with some key functional areas:
+app.py - The main flask app contains application endpoint logics stated above. 
 
-### Backend
+auth.py - The code where the main authorization logic to retrieve JWT authorization bearer token from third party authentication system AUTH0 is written. This will retrieve the JWT, decode and check for required RBAC permissions to access the end points. 
 
-The `./backend` directory contains a partially completed Flask server with a pre-written SQLAlchemy module to simplify your data needs. You will need to complete the required endpoints, configure, and integrate Auth0 for authentication.
+models.py - This code contains the database connectivity details & table  structure as models/class. 
 
-[View the README.md within ./backend for more details.](./backend/README.md)
+settings - This contains the mapping of local variables to environmental variables required to mainly connect to database
 
-### Frontend
+.env - Environment file which contains credentials to connect to database
 
-The `./frontend` directory contains a complete Ionic frontend to consume the data from the Flask server. You will only need to update the environment variables found within (./frontend/src/environment/environment.ts) to reflect the Auth0 configuration details set up for the backend app.
+test_app - Unit test python code to test all API end points for success and error behaviours. 
 
-[View the README.md within ./frontend for more details.](./frontend/README.md)
+# API Authentication Setup
+
+This API uses Bearer Token Authentication to ensure that only authorized users can access its endpoints configured via AUth0.
+
+Steps to Authenticate:
+
+1: Obtain a Bearer Token: From AUth0 user login. 
+2: Making API Requests with Authentication : To access endpoints, bearer token should be given in header of curl/postman request. 
+Note: Test_app python has valid bearer token to verify the application.
