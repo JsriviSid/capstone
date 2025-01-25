@@ -3,7 +3,7 @@ from settings import ( DB_NAME, DB_USER, DB_PASSWORD, RENDER_DB_HOST, RENDER_DB_
                      RENDER_DB_PASSWORD, RENDER_DB_USER)
               
 database_host = 'localhost:5432'
-database_path = f'postgresql://{DB_USER}:{DB_PASSWORD}@{database_host}'
+#database_path = f'postgresql://{DB_USER}:{DB_PASSWORD}@{database_host}'
 
 db= SQLAlchemy()
 
@@ -19,10 +19,10 @@ def get_database_uri():
         database_path = f'postgresql://{RENDER_DB_USER}:{RENDER_DB_PASSWORD}@{RENDER_DB_HOST}:5432/{RENDER_DB_NAME}'
     else:
         # Fall back to local database URI
-        database_path = database_host
+        database_path = f'postgresql://{DB_USER}:{DB_PASSWORD}@localhost:5432/{DB_NAME}'
     return database_path
 
-def setup_db(app, database_path=database_path):
+def setup_db(app):
     database_path = get_database_uri() 
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
