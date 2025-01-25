@@ -24,7 +24,9 @@ def create_app(test_config=None):
     @requires_auth(permission='get:movie')
     def get_movie(payload):
         try:
-            movies = Movies.query.with_entities(Movies.id,Movies.title,Movies.releasedate).all()
+            movies = Movies.query.with_entities(Movies.id,
+                                                Movies.title,
+                                                Movies.releasedate).all()
             formatted_movie= []
             for movie in movies:
                 formatted_movie.append({
@@ -100,7 +102,8 @@ def create_app(test_config=None):
         new_movie_id = body.get("movie_id", None)
 
         try:
-            new_actor = Actors(name=new_name, age=new_age,gender=new_gender,movie_id=new_movie_id)
+            new_actor = Actors(name=new_name, age=new_age,
+                               gender=new_gender,movie_id=new_movie_id)
             db.session.add(new_actor)
             db.session.commit()
 
@@ -173,12 +176,13 @@ def create_app(test_config=None):
         new_movie_id = body.get("movie_id")
 
         if not new_name or not new_age or not new_gender or not new_movie_id:
-            return jsonify({"error": "valueerror - missing required input fields"}), 400
+            return jsonify({"error": "valueerror - missing required input fields"
+                            }), 400
 
         try:
             actor=Actors.query.filter(Actors.id == id).one_or_none()
 
-            # checking whether the actor data is existing in DB, else prompt error
+            # check whether actor data is existing in DB, else prompt error
             if actor is None:
               abort(404)
 
@@ -210,12 +214,13 @@ def create_app(test_config=None):
         new_releasedate = body.get("releasedate")
 
         if not new_title or not new_releasedate:
-            return jsonify({"error": "valueerror - missing required input fields"}), 400
+            return jsonify({"error": "valueerror - missing required input fields"
+                            }), 400
 
         try:
             movie=Movies.query.filter(Movies.id == id).one_or_none()
 
-            # checking whether the movie data is existing in DB, else prompt error
+            # check whether movie data is existing in DB, else prompt error
             if movie is None:
               abort(404)
 
